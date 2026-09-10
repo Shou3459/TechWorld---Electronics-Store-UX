@@ -26,9 +26,3 @@ Background: light gray
 Text: #1A1625
 Typography: Poppins for headings, Inter for body
 Style: rounded cards, subtle shadows, gradient buttons, tech-forward aesthetic
-
-## Run
-Open `index.html` in Chrome/Edge/Firefox. No build step or server is required.
-
-## Submission
-This is a static HTML/CSS/JavaScript prototype designed to demonstrate the requested UI/UX flows. Product, order and account data are mock data for the internship prototype.
