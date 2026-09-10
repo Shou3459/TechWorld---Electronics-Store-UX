@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1A237E">
+  <meta name="description" content="TechWorld electronics store UI/UX prototype">
+  <title>TechWorld — Electronics Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+
+<!-- Onboarding -->
+<section id="onboarding" class="onboarding screen active">
+  <div class="onboard-brand"><span class="brand-mark">TW</span><span>TechWorld</span></div>
+  <div class="onboard-art">
+    <div class="orb orb-a"></div><div class="orb orb-b"></div>
+    <div class="device-stack">
+      <div class="device-card phone"><span>📱</span></div>
+      <div class="device-card laptop"><span>💻</span></div>
+      <div class="device-card buds"><span>🎧</span></div>
+    </div>
+  </div>
+  <div class="onboard-copy">
+    <div class="dots"><i class="dot active"></i><i class="dot"></i><i class="dot"></i></div>
+    <h1>Tech that fits<br><em>your world.</em></h1>
+    <p>Discover trusted electronics, compare specs and prices, and shop with confidence.</p>
+    <button class="btn primary full" onclick="nextOnboarding()">Get Started <span>→</span></button>
+    <button class="text-btn full" onclick="skipOnboarding()">Skip</button>
+  </div>
+</section>
+
+<!-- Main app -->
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand" onclick="showScreen('home')"><span class="brand-mark">TW</span><span>TechWorld</span></div>
+    <div class="search-wrap"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search phones, laptops, accessories..." oninput="handleSearch(this.value)"></div>
+    <div class="header-actions">
+      <button class="icon-btn" title="Compare" onclick="showScreen('compare')">⇄<b id="compareBadge">0</b></button>
+      <button class="icon-btn" title="Cart" onclick="showScreen('cart')">🛒<b id="cartBadge">0</b></button>
+      <button class="avatar" onclick="showScreen('profile')">S</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="screen">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">NEW SEASON • 2026</span>
+          <h1>Upgrade your<br><strong>everyday tech.</strong></h1>
+          <p>Premium devices. Honest specs. Better prices.</p>
+          <div class="hero-actions"><button class="btn light" onclick="showScreen('products')">Shop deals →</button><button class="ghost-light" onclick="showScreen('compare')">Compare products</button></div>
+        </div>
+        <div class="hero-device"><div class="phone-3d"><div class="phone-screen"><span>TW</span><small>PRO</small></div></div><div class="price-pill">Up to <b>35% OFF</b></div></div>
+      </div>
+
+      <div class="section-head"><div><span class="eyebrow blue">EXPLORE</span><h2>Shop by category</h2></div><button class="link-btn" onclick="showScreen('products')">View all →</button></div>
+      <div class="category-row">
+        <button class="category" onclick="filterCategory('Phones')"><span>📱</span><b>Phones</b><small>120+ items</small></button>
+        <button class="category" onclick="filterCategory('Laptops')"><span>💻</span><b>Laptops</b><small>80+ items</small></button>
+        <button class="category" onclick="filterCategory('Audio')"><span>🎧</span><b>Audio</b><small>65+ items</small></button>
+        <button class="category" onclick="filterCategory('Wearables')"><span>⌚</span><b>Wearables</b><small>40+ items</small></button>
+        <button class="category" onclick="filterCategory('Gaming')"><span>🎮</span><b>Gaming</b><small>55+ items</small></button>
+      </div>
+
+      <div class="section-head"><div><span class="eyebrow blue">TRENDING NOW</span><h2>Featured products</h2></div><button class="link-btn" onclick="showScreen('products')">See all →</button></div>
+      <div id="featuredGrid" class="product-grid"></div>
+
+      <div class="deal-banner"><div><span class="eyebrow">LIMITED TIME</span><h2>Smart savings, smarter tech.</h2><p>Track prices and get notified when your wishlist drops.</p></div><button class="btn primary" onclick="showScreen('products')">Explore deals</button></div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="screen">
+      <div class="page-title"><div><span class="eyebrow blue">CATALOG</span><h1>All products</h1><p id="resultText">Showing 8 products</p></div><button class="btn outline" onclick="toggleFilters()">⚙ Filters</button></div>
+      <div id="filterPanel" class="filter-panel hidden">
+        <div><label>Category</label><select id="categoryFilter" onchange="applyFilters()"><option value="All">All categories</option><option>Phones</option><option>Laptops</option><option>Audio</option><option>Wearables</option><option>Gaming</option></select></div>
+        <div><label>Brand</label><select id="brandFilter" onchange="applyFilters()"><option value="All">All brands</option><option>Nova</option><option>Orbit</option><option>Zenith</option><option>Pulse</option><option>Vertex</option></select></div>
+        <div><label>Sort by</label><select id="sortFilter" onchange="applyFilters()"><option value="featured">Featured</option><option value="priceLow">Price: low to high</option><option value="priceHigh">Price: high to low</option><option value="rating">Top rated</option></select></div>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+
+    <!-- DETAIL -->
+    <section id="detail" class="screen">
+      <button class="back-btn" onclick="showScreen('products')">← Back to products</button>
+      <div id="detailContent"></div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section id="compare" class="screen">
+      <div class="page-title"><div><span class="eyebrow blue">DECIDE WITH CONFIDENCE</span><h1>Compare products</h1><p>See the differences that matter.</p></div><button class="btn outline" onclick="clearCompare()">Clear all</button></div>
+      <div id="compareContent"></div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" class="screen">
+      <button class="back-btn" onclick="showScreen('detail')">← Back to product</button>
+      <div id="reviewsContent"></div>
+    </section>
+
+    <!-- CART -->
+    <section id="cart" class="screen">
+      <div class="page-title"><div><span class="eyebrow blue">YOUR BAG</span><h1>Shopping cart</h1><p id="cartSubtitle">0 items</p></div></div>
+      <div id="cartContent"></div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section id="checkout" class="screen">
+      <button class="back-btn" onclick="showScreen('cart')">← Back to cart</button>
+      <div class="checkout-layout">
+        <div>
+          <div class="page-title compact"><div><span class="eyebrow blue">SECURE CHECKOUT</span><h1>Almost yours.</h1></div></div>
+          <div class="stepper"><span class="active">1 <b>Delivery</b></span><i></i><span>2 <b>Payment</b></span><i></i><span>3 <b>Done</b></span></div>
+          <form id="checkoutForm" class="form-card" onsubmit="placeOrder(event)">
+            <h2>Delivery address</h2>
+            <div class="form-grid"><label>Full name<input required value="Shorya"></label><label>Phone number<input required placeholder="+91 98765 43210"></label></div>
+            <label>Address<input required placeholder="House / flat, street, locality"></label>
+            <div class="form-grid"><label>City<input required placeholder="New Delhi"></label><label>PIN code<input required pattern="[0-9]{6}" placeholder="110001"></label></div>
+            <h2>Payment method</h2>
+            <div class="payment-options"><label class="pay selected"><input type="radio" name="pay" checked> <span>▣</span><b>UPI</b><small>Fast & secure</small></label><label class="pay"><input type="radio" name="pay"> <span>▤</span><b>Card</b><small>Visa / Mastercard</small></label><label class="pay"><input type="radio" name="pay"> <span>◉</span><b>Cash</b><small>On delivery</small></label></div>
+            <button class="btn primary full" type="submit">Place secure order <span>→</span></button>
+          </form>
+        </div>
+        <aside id="checkoutSummary" class="summary-card"></aside>
+      </div>
+    </section>
+
+    <!-- CONFIRMATION -->
+    <section id="confirmation" class="screen centered">
+      <div class="success-icon">✓</div><span class="eyebrow blue">ORDER CONFIRMED</span><h1>You're all set!</h1><p id="confirmationText">Your order has been placed successfully.</p>
+      <div class="order-code">ORDER <b id="orderCode">TW-2026-0001</b></div>
+      <div class="confirmation-actions"><button class="btn primary" onclick="showScreen('home')">Continue shopping</button><button class="btn outline" onclick="showScreen('profile')">View order</button></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile" class="screen">
+      <div class="profile-hero"><div class="avatar big">S</div><div><span class="eyebrow blue">MY ACCOUNT</span><h1>Shorya Mahajan</h1><p>shorya@example.com</p></div><button class="btn outline" onclick="showToast('Profile editing is ready for your next iteration.')">Edit profile</button></div>
+      <div class="profile-tabs"><button class="active" onclick="profileTab('orders',this)">Orders</button><button onclick="profileTab('saved',this)">Saved</button><button onclick="profileTab('settings',this)">Settings</button></div>
+      <div id="profilePanel"></div>
+    </section>
+
+    <!-- LOGIN -->
+    <section id="login" class="screen auth-screen">
+      <div class="auth-card"><div class="brand center"><span class="brand-mark">TW</span><span>TechWorld</span></div><h1>Welcome back</h1><p>Sign in to manage orders, saved products and price alerts.</p>
+        <form onsubmit="login(event)"><label>Email address<input type="email" required placeholder="you@example.com"></label><label>Password<input type="password" required placeholder="••••••••"></label><button class="btn primary full">Sign in →</button></form>
+        <div class="or"><span>or</span></div><button class="social full" onclick="login()">Continue with Google</button><button class="text-btn full" onclick="showScreen('home')">Continue as guest</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-screen="home" onclick="showScreen('home')"><span>⌂</span>Home</button>
+    <button data-screen="products" onclick="showScreen('products')"><span>▦</span>Shop</button>
+    <button data-screen="compare" onclick="showScreen('compare')"><span>⇄</span>Compare</button>
+    <button data-screen="cart" onclick="showScreen('cart')"><span>🛒</span>Cart</button>
+    <button data-screen="profile" onclick="showScreen('profile')"><span>◉</span>Profile</button>
+  </nav>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
